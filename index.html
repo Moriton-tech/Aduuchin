@@ -3,16 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Адуучин тэмцээн — Бүртгэл</title>
+<title>Адуучин тэмцээн — Бүртгэл | TRM</title>
+<meta name="theme-color" content="#1d5c2e">
+<link rel="icon" type="image/png" href="favicon.png">
+<meta property="og:title" content="Адуучин тэмцээн — Бүртгэл">
+<meta property="og:description" content="TRM-Mongolia · Монгол Экүэстрэн ХХК">
+<meta property="og:image" content="logo.png">
 <style>
-  :root{--bg:#f6f3ee;--card:#fff;--ink:#1f2a24;--muted:#6b756e;--accent:#1f5c3f;--accent-2:#174630;--line:#dcd6cb;--err:#b3261e}
+  :root{--bg:#f4f1e8;--card:#fff;--ink:#1c2a20;--muted:#64705f;--accent:#1d5c2e;--accent-2:#14451f;--gold:#d9a416;--gold-2:#f0c43a;--line:#ddd6c3;--err:#b3261e}
   *{box-sizing:border-box}
   body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
   .wrap{max-width:560px;margin:0 auto;padding:16px 16px 48px}
-  header{padding:20px 4px 12px}
-  header h1{margin:0 0 4px;font-size:1.5rem}
-  header p{margin:0;color:var(--muted);font-size:.95rem}
-  form,.done{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .wrap{padding-top:0}
+  header.hero{margin:0 -16px 18px;padding:28px 20px 30px;text-align:center;color:#fff;
+    background:radial-gradient(120% 90% at 50% 0%,#2a7a40 0%,var(--accent) 55%,var(--accent-2) 100%);
+    border-bottom:5px solid var(--gold);border-radius:0 0 26px 26px;box-shadow:0 8px 22px rgba(20,69,31,.25)}
+  .logo{width:112px;height:112px;border-radius:50%;display:block;margin:0 auto 14px;background:#fff;
+    box-shadow:0 0 0 4px var(--gold),0 6px 18px rgba(0,0,0,.3)}
+  .brand{margin:0 0 6px;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-2);font-weight:700}
+  header.hero h1{margin:0 0 6px;font-size:1.65rem;line-height:1.2}
+  header.hero p{margin:0 auto;max-width:36ch;color:#e3eedf;font-size:.94rem}
+  header.hero p b{color:var(--gold-2)}
+  form,.done{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--gold);border-radius:14px;padding:20px;box-shadow:0 2px 10px rgba(28,42,32,.06)}
+  legend{color:var(--accent-2)}
+  footer.brandfoot{margin-top:22px;text-align:center;color:var(--muted);font-size:.82rem}
+  footer.brandfoot img{width:34px;height:34px;border-radius:50%;vertical-align:middle;margin-right:8px}
+  .done .logo{width:92px;height:92px;box-shadow:0 0 0 3px var(--gold)}
   .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   @media(max-width:480px){.row{grid-template-columns:1fr}}
   label.f{display:block;margin-bottom:14px;font-weight:600;font-size:.92rem}
@@ -24,11 +40,11 @@
   .opts{display:grid;gap:8px}
   .opt{display:flex;align-items:center;gap:10px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;cursor:pointer;font-weight:500}
   .opt input{accent-color:var(--accent);width:18px;height:18px;margin:0}
-  .opt:has(input:checked){border-color:var(--accent);background:#eef6f1}
+  .opt:has(input:checked){border-color:var(--accent);background:#eef6ea;box-shadow:inset 4px 0 0 var(--gold)}
   .consent{display:flex;gap:10px;font-size:.85rem;color:var(--muted);margin:16px 0}
   .consent input{margin-top:3px;accent-color:var(--accent)}
-  button{width:100%;padding:14px;font-size:1.05rem;font-weight:700;color:#fff;background:var(--accent);border:0;border-radius:10px;cursor:pointer}
-  button:hover{background:var(--accent-2)}
+  button{width:100%;padding:14px;font-size:1.05rem;font-weight:700;color:#fff;background:linear-gradient(180deg,#26753b,var(--accent-2));border:0;border-bottom:3px solid var(--gold);border-radius:10px;cursor:pointer}
+  button:hover{filter:brightness(1.1)}
   button:disabled{opacity:.6;cursor:wait}
   .err{color:var(--err);font-size:.88rem;margin:10px 0 0;min-height:1.2em}
   .done{text-align:center;padding:36px 20px}
@@ -39,9 +55,11 @@
 </head>
 <body>
 <div class="wrap">
-  <header>
+  <header class="hero">
+    <img class="logo" src="logo.png" alt="TRM-Mongolia" width="112" height="112">
+    <div class="brand">TRM-Mongolia</div>
     <h1>Адуучин тэмцээн</h1>
-    <p>Оролцогч оюутны бүртгэл. Бүх од (<span style="color:var(--err)">*</span>) бүхий талбарыг бөглөнө үү.</p>
+    <p>Оролцогч оюутны бүртгэл. Бүх од (<b>*</b>) бүхий талбарыг бөглөнө үү.</p>
   </header>
 
   <form id="form" novalidate>
@@ -53,7 +71,7 @@
     </div>
 
     <label class="f">Сургууль <span class="req">*</span>
-      <input type="text" name="school" required maxlength="120" placeholder="Жишээ: МУИС, ШУТИС, МУБИS…"></label>
+      <input type="text" name="school" required maxlength="120" placeholder="Жишээ: МУИС, ШУТИС, МУБИС…"></label>
 
     <label class="f">Мэргэжил / салбар
       <input type="text" name="major" maxlength="120"></label>
@@ -94,9 +112,12 @@
   </form>
 
   <div class="done" id="done" hidden>
+    <img class="logo" src="logo.png" alt="TRM-Mongolia" width="92" height="92">
     <h2>Баярлалаа! ✅</h2>
-    <p>Таны бүртгэл амжилттай хийгдлээ.</p>
+    <p>Таны бүртгэл амжилттай хийгдлээ.<br>Азтан шалгаруулалтад амжилт хүсье!</p>
   </div>
+
+  <footer class="brandfoot"><img src="logo.png" alt="">TRM · Монгол Экүэстрэн ХХК</footer>
 </div>
 
 <script>
