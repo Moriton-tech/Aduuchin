@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="mn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Азтан шалгаруулах</title>
+<style>
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:#1f2a24;color:#fff;font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;text-align:center}
+.box{width:min(640px,92vw);padding:24px}
+h1{margin:0 0 6px;font-size:1.6rem} .sub{color:#b9c7be;margin-bottom:22px}
+input{padding:12px;font-size:1rem;border-radius:10px;border:0;width:min(280px,80vw)}
+button{padding:14px 28px;font-size:1.1rem;font-weight:700;border:0;border-radius:10px;background:#e8b84a;color:#1f2a24;cursor:pointer;margin-top:12px}
+button:disabled{opacity:.6}
+#name{font-size:clamp(2rem,8vw,3.4rem);font-weight:800;margin:28px 0 8px;min-height:1.2em}
+#info{color:#d6e2da;font-size:1.05rem;line-height:1.7}
+.err{color:#ff9d94;min-height:1.2em;margin-top:10px}
+</style></head><body><div class="box">
+<h1>🎉 Азтан шалгаруулалт</h1>
+<div class="sub" id="stat">Нууц үгээ оруулна уу</div>
+<input type="password" id="pass" placeholder="Admin нууц үг" autocomplete="off"><br>
+<button id="go">Азтан сонгох</button>
+<div id="name"></div><div id="info"></div><div class="err" id="err"></div>
+</div>
+<script>
+const SUPABASE_URL="https://YOUR-PROJECT-REF.supabase.co", SUPABASE_KEY="YOUR_PUBLISHABLE_OR_ANON_KEY";
+const $=id=>document.getElementById(id);
+async function rpc(fn,pass){
+  const r=await fetch(`${SUPABASE_URL}/rest/v1/rpc/${fn}`,{method:"POST",headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`,"Content-Type":"application/json"},body:JSON.stringify({p_pass:pass})});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok) throw new Error(j.message||r.status); return j;
+}
+async function stats(){ try{const [s]=await rpc("draw_stats",$("pass").value); $("stat").textContent=`Нийт бүртгэл: ${s.total} · Сугалаанд үлдсэн: ${s.remaining}`;}catch{} }
+$("pass").addEventListener("change",stats);
+$("go").onclick=async()=>{
+  $("err").textContent=""; $("info").textContent=""; const b=$("go"); b.disabled=true;
+  try{
+    const pool=["…","🎲","…","🎲"]; let i=0; const t=setInterval(()=>$("name").textContent=pool[i++%4],150);
+    const [w]=await rpc("draw_winner",$("pass").value);
+    await new Promise(r=>setTimeout(r,1800)); clearInterval(t);
+    $("name").textContent="🏆 "+w.full_name;
+    $("info").innerHTML=`${w.school}<br>${w.phone} · ${w.email}`;
+    $("stat").textContent=`Сугалаанд үлдсэн: ${w.remaining}`;
+  }catch(e){
+    $("name").textContent="";
+    $("err").textContent = e.message==="unauthorized"?"Нууц үг буруу.": e.message==="no_candidates"?"Сугалаанд үлдсэн бүртгэл алга.":"Алдаа гарлаа.";
+  }finally{b.disabled=false}
+};
+</script></body></html>

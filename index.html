@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Адуучин тэмцээн — Бүртгэл</title>
+<style>
+  :root{--bg:#f6f3ee;--card:#fff;--ink:#1f2a24;--muted:#6b756e;--accent:#1f5c3f;--accent-2:#174630;--line:#dcd6cb;--err:#b3261e}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+  .wrap{max-width:560px;margin:0 auto;padding:16px 16px 48px}
+  header{padding:20px 4px 12px}
+  header h1{margin:0 0 4px;font-size:1.5rem}
+  header p{margin:0;color:var(--muted);font-size:.95rem}
+  form,.done{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:480px){.row{grid-template-columns:1fr}}
+  label.f{display:block;margin-bottom:14px;font-weight:600;font-size:.92rem}
+  label.f span.req{color:var(--err)}
+  input[type=text],input[type=tel],input[type=email],select{width:100%;margin-top:6px;padding:12px;font-size:1rem;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  input:focus,select:focus{outline:2px solid var(--accent);border-color:var(--accent)}
+  fieldset{border:0;padding:0;margin:20px 0 6px}
+  legend{font-weight:700;font-size:.98rem;padding:0;margin-bottom:8px}
+  .opts{display:grid;gap:8px}
+  .opt{display:flex;align-items:center;gap:10px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;cursor:pointer;font-weight:500}
+  .opt input{accent-color:var(--accent);width:18px;height:18px;margin:0}
+  .opt:has(input:checked){border-color:var(--accent);background:#eef6f1}
+  .consent{display:flex;gap:10px;font-size:.85rem;color:var(--muted);margin:16px 0}
+  .consent input{margin-top:3px;accent-color:var(--accent)}
+  button{width:100%;padding:14px;font-size:1.05rem;font-weight:700;color:#fff;background:var(--accent);border:0;border-radius:10px;cursor:pointer}
+  button:hover{background:var(--accent-2)}
+  button:disabled{opacity:.6;cursor:wait}
+  .err{color:var(--err);font-size:.88rem;margin:10px 0 0;min-height:1.2em}
+  .done{text-align:center;padding:36px 20px}
+  .done h2{margin:0 0 8px}
+  .hp{position:absolute;left:-9999px}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Адуучин тэмцээн</h1>
+    <p>Оролцогч оюутны бүртгэл. Бүх од (<span style="color:var(--err)">*</span>) бүхий талбарыг бөглөнө үү.</p>
+  </header>
+
+  <form id="form" novalidate>
+    <div class="row">
+      <label class="f">Овог <span class="req">*</span>
+        <input type="text" name="last_name" autocomplete="family-name" required maxlength="60"></label>
+      <label class="f">Нэр <span class="req">*</span>
+        <input type="text" name="first_name" autocomplete="given-name" required maxlength="60"></label>
+    </div>
+
+    <label class="f">Сургууль <span class="req">*</span>
+      <input type="text" name="school" required maxlength="120" placeholder="Жишээ: МУИС, ШУТИС, МУБИS…"></label>
+
+    <label class="f">Мэргэжил / салбар
+      <input type="text" name="major" maxlength="120"></label>
+
+    <div class="row">
+      <label class="f">Курс <span class="req">*</span>
+        <select name="course" required>
+          <option value="">Сонгох…</option>
+          <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>Магистр</option><option>Докторант</option>
+        </select></label>
+      <label class="f">Анги / групп <span class="req">*</span>
+        <input type="text" name="class_group" required maxlength="40"></label>
+    </div>
+
+    <div class="row">
+      <label class="f">Утас <span class="req">*</span>
+        <input type="tel" name="phone" inputmode="numeric" autocomplete="tel" required maxlength="12" placeholder="99112233"></label>
+      <label class="f">Имэйл <span class="req">*</span>
+        <input type="email" name="email" autocomplete="email" required maxlength="120"></label>
+    </div>
+
+    <fieldset>
+      <legend>1. TRM брэндийг хэр сайн мэдэх вэ? <span class="req" style="color:var(--err)">*</span></legend>
+      <div class="opts" data-q="trm_awareness"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>2. Монгол Экүэстрэн ХХК-г хэр сайн мэдэх вэ? <span class="req" style="color:var(--err)">*</span></legend>
+      <div class="opts" data-q="company_awareness"></div>
+    </fieldset>
+
+    <label class="consent"><input type="checkbox" name="consent" required>
+      <span>Миний мэдээллийг тэмцээний бүртгэл, холбоо барих зорилгоор цуглуулж ашиглахыг зөвшөөрч байна.</span></label>
+
+    <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <button type="submit" id="btn">Бүртгүүлэх</button>
+    <p class="err" id="err" role="alert"></p>
+  </form>
+
+  <div class="done" id="done" hidden>
+    <h2>Баярлалаа! ✅</h2>
+    <p>Таны бүртгэл амжилттай хийгдлээ.</p>
+  </div>
+</div>
+
+<script>
+/* ===== Supabase тохиргоо (anon/publishable key нь нийтэд харагдахаар зохиогдсон; хамгаалалт нь RLS) ===== */
+const SUPABASE_URL = "https://YOUR-PROJECT-REF.supabase.co";
+const SUPABASE_KEY = "YOUR_PUBLISHABLE_OR_ANON_KEY";
+
+const LEVELS = [
+  ["5","Маш сайн мэднэ"],
+  ["4","Сайн мэднэ"],
+  ["3","Дунд зэрэг мэднэ"],
+  ["2","Бага зэрэг мэднэ"],
+  ["1","Огт мэдэхгүй"]
+];
+document.querySelectorAll(".opts").forEach(box=>{
+  const q = box.dataset.q;
+  box.innerHTML = LEVELS.map(([v,t])=>
+    `<label class="opt"><input type="radio" name="${q}" value="${v}" required> ${t}</label>`).join("");
+});
+
+const form = document.getElementById("form"), btn = document.getElementById("btn"), errEl = document.getElementById("err");
+
+form.addEventListener("submit", async e=>{
+  e.preventDefault(); errEl.textContent = "";
+  const d = Object.fromEntries(new FormData(form).entries());
+  if (d.website) return; // bot
+  const phone = (d.phone||"").replace(/\D/g,"");
+  if (!form.checkValidity() || !d.trm_awareness || !d.company_awareness){
+    errEl.textContent = "Бүх шаардлагатай талбарыг бөглөнө үү."; form.reportValidity?.(); return;
+  }
+  if (phone.length < 8){ errEl.textContent = "Утасны дугаараа зөв оруулна уу (8 орон)."; return; }
+
+  const row = {
+    last_name: d.last_name.trim(), first_name: d.first_name.trim(),
+    school: d.school.trim(), major: (d.major||"").trim() || null,
+    course: d.course, class_group: d.class_group.trim(),
+    phone, email: d.email.trim().toLowerCase(),
+    trm_awareness: +d.trm_awareness, company_awareness: +d.company_awareness
+  };
+  btn.disabled = true; btn.textContent = "Илгээж байна…";
+  try{
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/registrations`,{
+      method:"POST",
+      headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`,"Content-Type":"application/json",Prefer:"return=minimal"},
+      body: JSON.stringify(row)
+    });
+    if (r.status === 409 || (await r.clone().text()).includes("23505")){
+      errEl.textContent = "Энэ утасны дугаараар бүртгэгдсэн байна."; return;
+    }
+    if (!r.ok) throw new Error(r.status);
+    form.hidden = true; document.getElementById("done").hidden = false; window.scrollTo(0,0);
+  }catch(ex){
+    errEl.textContent = "Илгээхэд алдаа гарлаа. Дахин оролдоно уу.";
+  }finally{
+    btn.disabled = false; btn.textContent = "Бүртгүүлэх";
+  }
+});
+</script>
+</body>
+</html>
