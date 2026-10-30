@@ -32,7 +32,7 @@ alter table public.winners enable row level security;   -- policy байхгүй
 create table if not exists public.admin_secret (pass text not null);
 alter table public.admin_secret enable row level security;
 -- ДООРХ НУУЦ ҮГИЙГ ӨӨРИЙНХӨӨРӨӨ СОЛИНО:
-insert into public.admin_secret (pass) select 'CHANGE-ME-123' where not exists (select 1 from public.admin_secret);
+insert into public.admin_secret (pass) select '<set-in-supabase>' where not exists (select 1 from public.admin_secret);
 
 -- Нууц үг зөв бол өмнө нь хожоогүй бүртгэлээс санамсаргүй нэгийг сонгож буцаана.
 create or replace function public.draw_winner(p_pass text)
